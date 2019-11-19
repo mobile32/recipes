@@ -24,7 +24,6 @@ const App = () => {
   }, []);
 
   const onSave = event => {
-    console.log(title, description, calories);
     db.recipes.add({ title, description, calories }).then(() => {
       db.table("recipes")
         .orderBy("calories")
@@ -33,10 +32,9 @@ const App = () => {
           setRecipes(recipes);
         });
     });
+
     event.preventDefault();
   };
-
-  console.log(recipes);
 
   return (
     <div>
@@ -65,7 +63,7 @@ const App = () => {
             type="text"
             name="calories"
             value={calories}
-            onChange={e => setCalories(e.target.value)}
+            onChange={e => setCalories(parseInt(e.target.value))}
           />
         </label>
         <button type="submit" onClick={onSave}>
@@ -81,7 +79,7 @@ const App = () => {
           </tr>
         </thead>
         <tbody>
-          {recipes.forEach(recipe => {
+          {recipes.map(recipe => {
             return (
               <tr>
                 <td>{recipe.title}</td>
